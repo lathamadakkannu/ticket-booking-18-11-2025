@@ -62,7 +62,7 @@ export default function SideNav() {
           Downtown Mumbai
         </Typography>
       </Box>
-     
+
 
       {/* Dashboard */}
       <Button component={Link} href="/" startIcon={<DashboardIcon />} variant="text" sx={getButtonStyle("/")}>
@@ -80,13 +80,13 @@ export default function SideNav() {
         <Button component={Link} href="/ShowScheduling" startIcon={<ScheduleIcon />} variant="text" sx={getButtonStyle("/ShowScheduling")}>
           Show Scheduling
         </Button>
-         <Button component={Link} href="/ScreenTimings" startIcon={<MonetizationOnIcon />} variant="text" sx={getButtonStyle("/EmployeeSalary")}>
-                  ScreenTimings
-                </Button>
-        <Button component={Link} href="/" startIcon={<ConfirmationNumberIcon />} variant="text" sx={getButtonStyle("/TicketManagement")}>
+        <Button component={Link} href="/ScreenTimings" startIcon={<MonetizationOnIcon />} variant="text" sx={getButtonStyle("/EmployeeSalary")}>
+          ScreenTimings
+        </Button>
+        <Button component={Link} href="/TicketManagement" startIcon={<ConfirmationNumberIcon />} variant="text" sx={getButtonStyle("/TicketManagement")}>
           Ticket Management
         </Button>
-        <Button component={Link} href="/" startIcon={<LocalOfferIcon />} variant="text" sx={getButtonStyle("/TicketPricing")}>
+        <Button component={Link} href="/TicketPricing" startIcon={<LocalOfferIcon />} variant="text" sx={getButtonStyle("/TicketPricing")}>
           Ticket Pricing
         </Button>
 

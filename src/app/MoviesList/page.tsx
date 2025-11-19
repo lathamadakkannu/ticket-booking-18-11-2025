@@ -5,28 +5,27 @@ import {
   Box,
   Button,
   Typography,
-  TextField,
   MenuItem,
   Stack,
   Paper,
   Tabs,
   Tab,
-  InputAdornment,
   IconButton,
-  Select,
   FormControl,
   Avatar,
   Chip,
   FormLabel,
   Switch,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import ModalBox from "@/components/ModalBox/ModalBox";
+import CustomTextField from "@/components/CustomSearchInput/CustomSearchInput";
+import CustomSelect from "@/components/CustomSelect/CustomSelect";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import { CHIP_STATUS_STYLES } from "@/utils/StatusStyles/statusStyles";
 
 interface Movie {
   headline: string;
@@ -209,7 +208,7 @@ export default function MoviesPage() {
     type: "",
     rating: "",
     description: "",
-    
+
   });
 
   const [manualLanguage, setManualLanguage] = useState("");
@@ -217,6 +216,17 @@ export default function MoviesPage() {
   const [manualCertificate, setManualCertificate] = useState("");
   const [manualFormat, setManualFormat] = useState("");
 
+  //input fields
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [movieName, setMovieName] = useState("");
+  const [duration, setDuration] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
+  const [director, setDirector] = useState("");
+  const [leadActors, setLeadActors] = useState("");
+  const [distributor, setDistributor] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [description, setDescription] = useState("");
 
 
   // Editing logic
@@ -230,19 +240,18 @@ export default function MoviesPage() {
       type: movie.type,
       rating: movie.rating,
       description: movie.description,
-   
+
     });
     setOpenEditModal(true);
   };
 
 
 
- const handleEditFormChange = (field: keyof MovieFormData, value: string) => {
+  const handleEditFormChange = (field: keyof MovieFormData, value: string) => {
     setMovieForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSaveEditMovie = () => {
-    // You would here update MOVIE_SAMPLE state (use useState for it in a real app)
     setOpenEditModal(false);
     setEditingMovie(null);
     // Optionally reset form
@@ -287,12 +296,13 @@ export default function MoviesPage() {
         </Stack>
 
         <Avatar
-          className="w-12 h-12 font-bold"
+          className="font-bold"
           style={{
             background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           }}
         >
-          RA
+          <Typography className="p-3 font-bold">RA</Typography>
+
         </Avatar>
       </Stack>
 
@@ -304,9 +314,9 @@ export default function MoviesPage() {
           indicatorColor="primary"
           textColor="primary"
         >
-          <Tab 
-           label="My Movies" 
-           className="text-base font-semibold normal-case" 
+          <Tab
+            label="My Movies"
+            className="text-base font-semibold normal-case"
           />
           <Tab
             label="Select from Master List"
@@ -323,8 +333,7 @@ export default function MoviesPage() {
       <Box className="bg-white px-6 py-4 rounded-xl">
         {/* Tab 1: My Movies */}
         {tabIdx === 0 && (
-          <Box>
-            {/* Search and Filters */}
+          <Box className="p-2">
 
             <Stack
               direction="row"
@@ -340,62 +349,50 @@ export default function MoviesPage() {
               {/* RIGHT SIDE */}
               <Stack direction="row" spacing={2}>
                 <FormControl size="small">
-                  <Select value={status} onChange={(e) => setStatus(e.target.value)}>
+                  <CustomSelect value={status} onChange={(e) => setStatus(e.target.value)}>
                     <MenuItem value="All Status">All Status</MenuItem>
                     <MenuItem value="Active">Active</MenuItem>
                     <MenuItem value="Inactive">Inactive</MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </FormControl>
 
                 <FormControl size="small">
-                  <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                  <CustomSelect value={language} onChange={(e) => setLanguage(e.target.value)}>
                     <MenuItem value="All Languages">All Languages</MenuItem>
                     <MenuItem value="Tamil">Tamil</MenuItem>
                     <MenuItem value="English">English</MenuItem>
                     <MenuItem value="Hindi">Hindi</MenuItem>
-
-                  </Select>
+                  </CustomSelect>
                 </FormControl>
               </Stack>
             </Stack>
 
-
             {/* Movie Card */}
-            <TextField
-              placeholder="Show your movies by name,language,genre..."
-              variant="outlined"
-              size="small"
-              fullWidth
-              className="mb-4"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton>
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  width: "100%",
-                  padding: "5px 10px 5px 10px",
-                  border: "2px solid #e0e0e0",
-                  borderRadius: "10px",
-                  fontSize: "16px",
-                  transition: "all 0.3s",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-              }}
 
+            <CustomTextField
+              placeholder="Show your movies by name, language, genre..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-7"
             />
+
             <Box className="max-h-[350px] overflow-y-auto pr-2">
               {MOVIE_SAMPLE.map((movie, idx) => (
-                <Paper key={idx} className="p-4 mb-4 flex items-center rounded-xl shadow-md bg-white">
-
-
+                <Paper key={idx} className="p-4 mb-4 flex items-center rounded-xl  bg-white"
+                  sx={{
+                    border: "1px solid #d1d5db",
+                    boxShadow: "none",
+                    "&:hover": {
+                      borderColor: "#667eea",
+                      boxShadow: "none",
+                    },
+                    "&:focus": {
+                      outline: "none",
+                      borderColor: "#d1d5db",
+                      boxShadow: "none",
+                    },
+                  }}
+                >
 
                   <Box className="w-24 h-24 mr-4 bg-purple-500 text-white flex items-center justify-center rounded-lg shadow-lg">
                     <Typography className="font-semibold text-[13px]">
@@ -403,21 +400,20 @@ export default function MoviesPage() {
                     </Typography>
                   </Box>
 
-
-
                   <Box className="flex-1">
                     <Typography className="font-bold text-lg">{movie.title}</Typography>
                     <Stack direction="row" spacing={1} alignItems="center" className="my-2">
-                      <Chip label={movie.language} size="small" />
-                      <Chip label={movie.duration} size="small" />
-                      <Chip label={movie.rating} size="small" />
-                      <Chip label={movie.genre} size="small" />
-                      <Chip label={movie.type} size="small" />
+                      <Chip label={movie.language} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.duration} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.rating} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.genre} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.type} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
                       <Chip
                         label={movie.status}
                         size="small"
-                        className="bg-green-500 text-white font-bold"
+                        className={CHIP_STATUS_STYLES[movie.status] || "bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]"}
                       />
+
                     </Stack>
                     <Typography variant="body2" className="text-gray-600">
                       {movie.description}
@@ -435,25 +431,22 @@ export default function MoviesPage() {
                     </Stack>
                   </Box>
                   <Stack spacing={2} className="ml-4">
-                    <Button
-                      variant="contained"
-                      color="primary"
+
+                    <CustomButton
                       startIcon={<EditIcon />}
-                      size="small"
-                      className="rounded-lg"
                       onClick={() => setOpenEditModal(true)}
+                      className="rounded-lg"
                     >
                       Edit
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
+                    </CustomButton>
+                    <CustomButton
                       startIcon={<DeleteIcon />}
-                      size="small"
+                      color="error"
                       className="rounded-lg"
                     >
                       Delete
-                    </Button>
+                    </CustomButton>
+
                   </Stack>
                 </Paper>
               ))}
@@ -464,44 +457,38 @@ export default function MoviesPage() {
         {/* Tab 2: Master List */}
 
         {tabIdx === 1 && (
-          <Box>
+          <Box className="p-2">
             <Typography variant="h6" className="mb-4 font-bold">
               Search Movies
             </Typography>
-            <TextField
-              placeholder="Search by movies by name,language,genre..."
-              variant="outlined"
-              size="small"
-              fullWidth
-              className="mb-4"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton>
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  width: "100%",
-                  padding: "5px 10px 5px 10px",
-                  border: "2px solid #e0e0e0",
-                  borderRadius: "10px",
-                  fontSize: "16px",
-                  transition: "all 0.3s",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-              }}
+            <CustomTextField
+              placeholder="Search by movies by name, language, genre..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="mb-7"
             />
 
             <Box className="max-h-[350px] overflow-y-auto pr-2">
               {MASTER_LIST_MOVIES.map((movie, idx) => (
 
-                <Paper key={idx} className="p-4 mb-4 flex items-center rounded-xl shadow-md bg-white">
+                <Paper
+                  key={idx}
+                  className="p-4 mb-4 flex items-center rounded-xl bg-white"
+
+                  sx={{
+                    border: "1px solid #d1d5db",
+                    boxShadow: "none",
+                    "&:hover": {
+                      borderColor: "#667eea",
+                      boxShadow: "none",
+                    },
+                    "&:focus": {
+                      outline: "none",
+                      borderColor: "#d1d5db",
+                      boxShadow: "none",
+                    },
+                  }}
+                >
 
                   {/* Left Icon Box */}
                   <Box className="w-24 h-24 mr-4 bg-purple-500 text-white flex items-center justify-center rounded-lg shadow-lg">
@@ -516,15 +503,13 @@ export default function MoviesPage() {
 
                     {/* Chips */}
                     <Stack direction="row" spacing={1} alignItems="center" className="my-2">
-                      <Chip label={movie.language} size="small" />
-                      <Chip label={movie.duration} size="small" />
-                      <Chip label={movie.genre} size="small" />
-                      <Chip label={movie.rating} size="small" color="primary" />
-                      <Chip label={movie.type} size="small" />
-                      {/* <Chip label={movie.year} size="small" /> */}
+                      <Chip label={movie.language} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.duration} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.genre} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.rating} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
+                      <Chip label={movie.type} size="small" className="bg-gray-200  rounded-[10px] px-3 py-1 text-[12px]" />
                     </Stack>
 
-                    {/* Optional — Remove if you don’t have description */}
                     {movie.description && (
                       <Typography variant="body2" className="text-gray-600 mb-1">
                         {movie.description}
@@ -534,7 +519,8 @@ export default function MoviesPage() {
 
                   {/* Select Button */}
                   <Box className="ml-4">
-                    <Button
+
+                    <CustomButton
                       variant="contained"
                       color="primary"
                       startIcon={<AddIcon />}
@@ -543,7 +529,8 @@ export default function MoviesPage() {
                       onClick={() => handleAddFromMaster(movie)}
                     >
                       Select
-                    </Button>
+                    </CustomButton>
+
                   </Box>
                 </Paper>
 
@@ -555,14 +542,13 @@ export default function MoviesPage() {
         {/* Tab 3: Add Manually */}
 
         {tabIdx === 2 && (
-          <Box className="bg-white p-6 rounded-2xl">
+          <Box className="bg-white p-2 rounded-2xl">
             <Typography variant="h6" className="mb-4 font-bold">
               Add Movie from Master List
             </Typography>
 
-            <Stack spacing={4}>
+            <Stack spacing={3}>
 
-              {/* --- Movie Poster Upload --- */}
               <Box>
                 <FormLabel className="font-semibold mb-2 block">
                   Movie Poster
@@ -575,11 +561,9 @@ export default function MoviesPage() {
 
                 </FormLabel>
 
-
                 <Box className="w-1/2">
                   <Box className="flex gap-6 w-full">
 
-                    {/* LEFT COLUMN */}
                     <Box className="w-1/2">
                       <Button
                         variant="outlined"
@@ -592,18 +576,22 @@ export default function MoviesPage() {
                       </Button>
                     </Box>
 
-                    {/* RIGHT COLUMN */}
                     <Box className="w-1/2 flex flex-col">
-                      <Button
+
+                      <CustomButton
                         variant="contained"
                         component="label"
                         className="rounded-lg px-1 py-3 w-full"
-                        style={{ backgroundColor: "#667eea", color: "white", fontWeight: "bold" }}
+                        sx={{
+                          bgcolor: "#667eea",
+                          color: "white",
+                          fontWeight: "bold",
+                          "&:hover": { bgcolor: "#5a67d8" }
+                        }}
                       >
                         Choose File
                         <input type="file" hidden accept="image/*" />
-                      </Button>
-
+                      </CustomButton>
 
                       <Typography variant="caption" className="text-gray-500 mt-2 block">
                         Recommended: 300×450px, JPG or PNG, Max 2MB
@@ -613,10 +601,8 @@ export default function MoviesPage() {
                   </Box>
                 </Box>
 
-
               </Box>
 
-              {/* --- Movie Name --- */}
               <Box>
                 <FormLabel className="font-semibold mb-2 block text-[18px]">
                   Movie Name
@@ -628,12 +614,14 @@ export default function MoviesPage() {
                   </Typography>
                 </FormLabel>
 
+                <CustomTextField
+                  placeholder="Enter movie name"
+                  value={movieName}
+                  onChange={(e) => setMovieName(e.target.value)}
+                />
 
-
-                <TextField fullWidth size="small" placeholder="Enter movie name" />
               </Box>
 
-              {/* --- Language + Duration --- */}
               <Box className="flex gap-4">
                 <Box className="flex-1">
                   <FormLabel className="font-semibold mb-2 block">
@@ -646,9 +634,7 @@ export default function MoviesPage() {
                       *
                     </Typography>
                   </FormLabel>
-                  <Select
-                    fullWidth
-                    size="small"
+                  <CustomSelect
                     value={manualLanguage}
                     onChange={(e) => setManualLanguage(e.target.value)}
                     displayEmpty
@@ -661,7 +647,7 @@ export default function MoviesPage() {
                     <MenuItem value="Telugu">Telugu</MenuItem>
                     <MenuItem value="Kannada">Kannada</MenuItem>
                     <MenuItem value="Multi Language">Multi Language</MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </Box>
 
                 <Box className="flex-1">
@@ -675,11 +661,14 @@ export default function MoviesPage() {
                       *
                     </Typography>
                   </FormLabel>
-                  <TextField fullWidth size="small" placeholder="e.g. 165" />
+                  <CustomTextField
+                    placeholder="e.g. 165"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                  />
                 </Box>
               </Box>
 
-              {/* --- Genre + Certificate --- */}
               <Box className="flex gap-4">
                 <Box className="flex-1">
                   <FormLabel className="font-semibold mb-2 block">
@@ -691,13 +680,10 @@ export default function MoviesPage() {
                       *
                     </Typography>
                   </FormLabel>
-                  <Select
-                    fullWidth
-                    size="small"
+                  <CustomSelect
                     value={manualGenre}
                     onChange={(e) => setManualGenre(e.target.value)}
                     displayEmpty
-
                   >
                     <MenuItem value="">Select Genre</MenuItem>
                     <MenuItem value="Action">Action</MenuItem>
@@ -711,7 +697,7 @@ export default function MoviesPage() {
                     <MenuItem value="Documentary">Documentary</MenuItem>
                     <MenuItem value="Animation">Animation</MenuItem>
                     <MenuItem value="Fantasy">Fantasy</MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </Box>
 
                 <Box className="flex-1">
@@ -725,24 +711,20 @@ export default function MoviesPage() {
                     </Typography>
 
                   </FormLabel>
-                  <Select
-                    fullWidth
-                    size="small"
+                  <CustomSelect
                     value={manualCertificate}
                     onChange={(e) => setManualCertificate(e.target.value)}
                     displayEmpty
-
                   >
                     <MenuItem value="">Select Certificate</MenuItem>
                     <MenuItem value="U">U (Universal)</MenuItem>
                     <MenuItem value="UA">UA (Parental Guidance)</MenuItem>
                     <MenuItem value="A">A (Adults Only)</MenuItem>
                     <MenuItem value="R">R (Restricted)</MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </Box>
               </Box>
 
-              {/* --- Release + Format --- */}
               <Box className="flex gap-4">
                 <Box className="flex-1">
                   <FormLabel className="font-semibold mb-2 block">
@@ -755,7 +737,13 @@ export default function MoviesPage() {
                       *
                     </Typography>
                   </FormLabel>
-                  <TextField type="date" fullWidth size="small" InputLabelProps={{ shrink: true }} />
+                  <CustomTextField
+                    type="date"
+                    value={releaseDate}
+                    onChange={(e) => setReleaseDate(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
+                  />
+
                 </Box>
 
                 <Box className="flex-1">
@@ -769,13 +757,10 @@ export default function MoviesPage() {
                     </Typography>
 
                   </FormLabel>
-                  <Select
-                    fullWidth
-                    size="small"
+                  <CustomSelect
                     value={manualFormat}
                     onChange={(e) => setManualFormat(e.target.value)}
                     displayEmpty
-
                   >
                     <MenuItem value="">Select Format</MenuItem>
                     <MenuItem value="2D">2D</MenuItem>
@@ -783,18 +768,22 @@ export default function MoviesPage() {
                     <MenuItem value="IMAX">IMAX</MenuItem>
                     <MenuItem value="4DX">4DX</MenuItem>
                     <MenuItem value="IMAX 3D">IMAX 3D</MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </Box>
               </Box>
 
-              {/* --- Director + Cast --- */}
               <Box className="flex gap-4">
                 <Box className="flex-1">
                   <FormLabel className="font-semibold mb-2 block">
                     Director
 
                   </FormLabel>
-                  <TextField fullWidth size="small" placeholder="Director name" />
+                  <CustomTextField
+                    placeholder="Director name"
+                    value={director}
+                    onChange={(e) => setDirector(e.target.value)}
+                  />
+
                 </Box>
 
                 <Box className="flex-1">
@@ -802,17 +791,27 @@ export default function MoviesPage() {
                     Cast (Main Actors)
 
                   </FormLabel>
-                  <TextField fullWidth size="small" placeholder="Lead actors" />
+
+                  <CustomTextField
+                    placeholder="Lead actors"
+                    value={leadActors}
+                    onChange={(e) => setLeadActors(e.target.value)}
+                  />
+
                 </Box>
               </Box>
 
-              {/* --- Distributor + Contact --- */}
               <Box className="flex gap-4">
                 <Box className="flex-1">
                   <FormLabel className="font-semibold mb-2 block">
                     Distributor
                   </FormLabel>
-                  <TextField fullWidth size="small" placeholder="Distributor name" />
+                  <CustomTextField
+                    placeholder="Distributor name"
+                    value={distributor}
+                    onChange={(e) => setDistributor(e.target.value)}
+                  />
+
                 </Box>
 
                 <Box className="flex-1">
@@ -820,7 +819,12 @@ export default function MoviesPage() {
                     Distributor Contact
 
                   </FormLabel>
-                  <TextField fullWidth size="small" placeholder="Contact number" />
+                  <CustomTextField
+                    placeholder="Contact number"
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                  />
+
                 </Box>
               </Box>
 
@@ -829,11 +833,12 @@ export default function MoviesPage() {
                   Description
 
                 </FormLabel>
-                <TextField
-                  fullWidth
+                <CustomTextField
                   multiline
                   rows={4}
                   placeholder="Enter movie description..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Box>
 
@@ -888,184 +893,23 @@ export default function MoviesPage() {
                 />
               </Box>
 
-
-
-              {/* --- Buttons --- */}
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button variant="outlined" className="rounded-lg px-6">
+                <CustomButton
+                  variant="outlined"
+                  className="rounded-lg px-6 py-2"
+                  onClick={() => setTabIdx(0)}
+                >
                   Cancel
-                </Button>
-                <Button variant="contained" className="rounded-lg px-6">
+                </CustomButton>
+                <CustomButton variant="contained" className="rounded-lg px-6 py-2">
                   Add Movie
-                </Button>
+                </CustomButton>
+
               </Stack>
 
             </Stack>
           </Box>
         )}
-
-        {/* Modal box */}
-
-
-        <ModalBox
-  open={openEditModal}
-  onClose={() => setOpenEditModal(false)}
-  title={editingMovie ? `Edit Movie: ${editingMovie.title}` : "Edit Movie"}
->
-  <Box sx={{ minWidth: 360, padding: 3 }}>
-    <Stack spacing={4}>
-      {/* Movie Name */}
-      <Box>
-        <FormLabel sx={{ fontWeight: 'bold', mb: 1, fontSize: 18 }}>
-          Movie Name
-          <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-            *
-          </Typography>
-        </FormLabel>
-        <TextField
-          size="small"
-          fullWidth
-          value={movieForm.title}
-          onChange={(e) => handleEditFormChange('title', e.target.value)}
-          placeholder="Enter movie name"
-        />
-      </Box>
-
-      {/* Language + Duration (2 columns) */}
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Box sx={{ flex: 1 }}>
-          <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>
-            Language
-            <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-              *
-            </Typography>
-          </FormLabel>
-          <Select
-            size="small"
-            fullWidth
-            value={movieForm.language}
-            onChange={(e) => handleEditFormChange('language', e.target.value)}
-            displayEmpty
-          >
-            <MenuItem value="">Select Language</MenuItem>
-            <MenuItem value="Tamil">Tamil</MenuItem>
-            <MenuItem value="English">English</MenuItem>
-            <MenuItem value="Hindi">Hindi</MenuItem>
-            <MenuItem value="Malayalam">Malayalam</MenuItem>
-            <MenuItem value="Telugu">Telugu</MenuItem>
-            <MenuItem value="Kannada">Kannada</MenuItem>
-            <MenuItem value="Multi Language">Multi Language</MenuItem>
-          </Select>
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>
-            Duration (minutes)
-            <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-              *
-            </Typography>
-          </FormLabel>
-          <TextField
-            size="small"
-            fullWidth
-            value={movieForm.duration}
-            onChange={(e) => handleEditFormChange('duration', e.target.value)}
-            placeholder="e.g. 165"
-          />
-        </Box>
-      </Box>
-
-      {/* Genre + Type (2 columns) */}
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Box sx={{ flex: 1 }}>
-          <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>
-            Genre
-            <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-              *
-            </Typography>
-          </FormLabel>
-          <TextField
-            size="small"
-            fullWidth
-            value={movieForm.genre}
-            onChange={(e) => handleEditFormChange('genre', e.target.value)}
-            placeholder="Enter genre"
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>
-            Type (Format)
-            <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-              *
-            </Typography>
-          </FormLabel>
-          <Select
-            size="small"
-            fullWidth
-            value={movieForm.type}
-            onChange={(e) => handleEditFormChange('type', e.target.value)}
-            displayEmpty
-          >
-            <MenuItem value="">Select Format</MenuItem>
-            <MenuItem value="2D">2D</MenuItem>
-            <MenuItem value="3D">3D</MenuItem>
-            <MenuItem value="IMAX">IMAX</MenuItem>
-            <MenuItem value="4DX">4DX</MenuItem>
-            <MenuItem value="IMAX 3D">IMAX 3D</MenuItem>
-          </Select>
-        </Box>
-      </Box>
-
-      {/* Rating + (empty space to align 2 columns) */}
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Box sx={{ flex: 1 }}>
-          <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>
-            Certificate / Rating
-            <Typography component="span" sx={{ color: 'red', fontSize: 14, verticalAlign: 'super' }}>
-              *
-            </Typography>
-          </FormLabel>
-          <Select
-            size="small"
-            fullWidth
-            value={movieForm.rating}
-            onChange={(e) => handleEditFormChange('rating', e.target.value)}
-            displayEmpty
-          >
-            <MenuItem value="">Select Certificate</MenuItem>
-            <MenuItem value="U">U (Universal)</MenuItem>
-            <MenuItem value="UA">UA (Parental Guidance)</MenuItem>
-            <MenuItem value="A">A (Adults Only)</MenuItem>
-            <MenuItem value="R">R (Restricted)</MenuItem>
-          </Select>
-        </Box>
-        <Box sx={{ flex: 1 }} /> {/* empty box for layout balance */}
-      </Box>
-
-      {/* Description */}
-      <Box>
-        <FormLabel sx={{ fontWeight: 'bold', mb: 1 }}>Description</FormLabel>
-        <TextField
-          size="small"
-          fullWidth
-          multiline
-          rows={3}
-          value={movieForm.description}
-          onChange={(e) => handleEditFormChange('description', e.target.value)}
-          placeholder="Enter movie description..."
-        />
-      </Box>
-
-      {/* Buttons */}
-      <Stack direction="row" justifyContent="flex-end" spacing={2}>
-        <Button onClick={() => setOpenEditModal(false)}>Cancel</Button>
-        <Button variant="contained" onClick={handleSaveEditMovie}>
-          Save Changes
-        </Button>
-      </Stack>
-    </Stack>
-  </Box>
-</ModalBox>
-
 
 
       </Box>

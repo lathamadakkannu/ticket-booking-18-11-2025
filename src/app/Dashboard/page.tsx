@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography, Paper, Avatar, Button, Divider } from "@mui/material";
+import { Box, Typography, Paper, Avatar, Divider, Button } from "@mui/material";
 import ShowIcon from "@mui/icons-material/TheaterComedy";
 import TicketIcon from "@mui/icons-material/ConfirmationNumber";
 import RevenueIcon from "@mui/icons-material/AttachMoney";
@@ -22,6 +22,7 @@ import CoffeeIcon from '@mui/icons-material/Coffee';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import { LinearProgress } from "@mui/material";
+import CustomButton from "@/components/CustomButton/CustomButton";
 
 export default function Dashboard() {
   const stats = [
@@ -208,12 +209,13 @@ export default function Dashboard() {
         </Box>
         <Box className="flex items-center gap-4">
           <Avatar
-            className="w-12 h-12 font-bold"
+            className="font-bold"
             style={{
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             }}
           >
-            RA
+            <Typography className="p-3 font-bold">RA</Typography>
+
           </Avatar>
           <Box>
             <Typography className="font-bold text-[15px]">Rajesh Kumar</Typography>
@@ -223,13 +225,14 @@ export default function Dashboard() {
               Theatre Admin
             </Typography>
           </Box>
-          <Button
+          <CustomButton
             variant="contained"
             color="error"
-            className="ml-4 text-[12px]"
+            className="ml-4 "
           >
             Logout
-          </Button>
+          </CustomButton>
+
         </Box>
       </Paper>
 

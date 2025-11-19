@@ -1,6 +1,6 @@
 
 "use client";
-
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ const ScreenTimings = () => {
             <Button className="bg-[#f0f0f0] text-black" size="small">
               <ArrowBackIcon fontSize="small" />
             </Button>
-            <Typography variant="h5" className="font-bold">
+            <Typography variant="h5" className="font-bold text-2xl">
               Configure Screen Timings
             </Typography>
           </Box>
@@ -45,10 +45,10 @@ const ScreenTimings = () => {
 
         {/* ABOUT SECTION */}
         <Paper className="p-5 rounded-xl">
-          <Typography className="font-bold" variant="body1">
+          <Typography className="font-bold text-md" variant="body1">
             About Screen Timing Configuration
           </Typography>
-          <Typography variant="body2" className="mt-2">
+          <Typography variant="body2" className="mt-2 text-sm">
             Define default show timings for each screen. These timings serve as
             templates when scheduling shows. For blockbuster movies or high
             demand, you can add additional shows beyond these defaults. Changes
@@ -59,35 +59,39 @@ const ScreenTimings = () => {
 
         {/* QUICK ACTIONS */}
         <Paper className="p-5 rounded-xl">
-          <Typography variant="body1" className="font-bold">
+          <Typography variant="body1" className="font-bold text-lg mb-2">
             Quick Actions
           </Typography>
 
-          <Box className="grid grid-cols-3 gap-3 mt-4">
+          <Box className="flex gap-2 flex-wrap">
             <Button
-              variant="contained"
-              className="text-[12px] bg-[#f0f0f0] border border-[#e0e0e0] text-black"
+            startIcon={<RestartAltIcon/>}
+            
+              className="text-md  bg-[#f0f0f0] border border-[#e0e0e0] text-black  rounded-lg"
             >
               Apply Same Timing to All Screens
             </Button>
 
             <Button
-              variant="contained"
-              className="text-[12px] bg-[#f0f0f0] border border-[#e0e0e0] text-black"
+              startIcon={<RestartAltIcon/>}
+              
+              className="text-md  bg-[#f0f0f0] border border-[#e0e0e0] text-black"
             >
               Reset All to Factory Defaults
             </Button>
 
             <Button
-              variant="contained"
-              className="text-[12px] bg-[#f0f0f0] border border-[#e0e0e0] text-black"
+             
+                startIcon={<RestartAltIcon/>}
+              className="text-md bg-[#f0f0f0] border border-[#e0e0e0] text-black"
             >
               Copy Timings from Another Screen
             </Button>
 
             <Button
-              variant="contained"
-              className="text-[12px] bg-[#f0f0f0] border border-[#e0e0e0] text-black"
+             
+                startIcon={<RestartAltIcon/>}
+              className="text-md  bg-[#f0f0f0] border border-[#e0e0e0] text-black"
             >
               Bulk Add Time Slots
             </Button>
@@ -95,249 +99,226 @@ const ScreenTimings = () => {
         </Paper>
 
         {/* SINGLE SCREEN CARD */}
-        <Box className="grid grid-cols-3 gap-5">
-          <Card className="p-2 rounded-xl">
-            <CardContent className="grid gap-y-3">
-              <Box className="flex justify-between mb-2">
-                <Box>
-                  <Typography variant="h6" className="font-bold">
+        <Box className="grid grid-cols-2 gap-5">
+          <Card className="rounded-xl p-3">
+            <CardContent className="grid gap-y-3 ">
+              <Box className="flex justify-between ">
+                <Box className="grid items-center">
+                  <Typography variant="h6" className="font-bold text-2xl ">
                     Screen 1
                   </Typography>
 
-                  <Box className="flex gap-x-5 mt-5">
-                    <Typography className="caption">IMAX 3D</Typography>
-                    <Typography className="caption">250 seats</Typography>
-                    <Typography className="caption">Premium</Typography>
+                  <Box className="flex gap-x-5 ">
+                    <Typography className="text-xs text-[#666]" >IMAX 3D</Typography>
+                    <Typography className="text-xs text-[#666]" >250 seats</Typography>
+                    <Typography className="text-xs text-[#666]" >Premium</Typography>
                   </Box>
                 </Box>
 
                 {/* FIX: image path should be inside /public */} 
-                <img src="/1.jpg" alt="" className="h-[50px] w-[50px]" />
+               <Box className="bg-gradient-to-r from-[#667eea] to-[#764ba2] h-[60px] w-[60px] rounded-lg grid place-content-center">
+                  <RestartAltIcon />
+               </Box>
               </Box>
 
               <Divider />
 
               {/* DEFAULT SHOW TIMINGS */}
               <Box>
-                <Typography variant="body2">Default Show Timings</Typography>
+                <Typography variant="body2" className='text-sm'>Default Show Timings</Typography>
 
                 <List className="grid grid-cols-3 gap-2">
                   {["11:00 PM", "11:00 PM", "11:00 PM", "11:00 PM"].map(
                     (time, index) => (
                       <ListItem key={index} className="p-0">
-                        <Chip label={time} onDelete={() => {}} />
+                        <Chip label={time} onDelete={() => {}} 
+                        className='bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-2'
+                         sx={{
+                            "& .MuiChip-deleteIcon": {
+                              color: "#B3B3B3",
+                            },
+                            "& .MuiChip-deleteIcon:hover": {
+                              color: "darkred",
+                            }
+                          }}
+                        />
                       </ListItem>
                     )
                   )}
                 </List>
+                <Box className="flex gap-5">
+                  <TextField type="time" size="small" className="grow"/>
+                  <Button variant="contained" className="bg-[#667eea] rounded-lg">
+                    + Add Time
+                  </Button>
+              </Box>
               </Box>
 
               {/* ADD TIME SLOT */}
-              <Box className="flex gap-5">
-                <TextField type="time" size="small" className="grow"/>
-                <Button variant="contained" className="bg-[#667eea]">
-                  + Add Time
-                </Button>
-              </Box>
+       
 
               <Divider />
 
-              <Box className="flex justify-between mt-2">
-                <Typography variant="caption">
+              <Box className="flex justify-between items-center mt-2">
+                <Typography variant="caption" className='first-letter:text-[#667eea] first-letter:text-md text-sm'>
                   4 time slots configured
                 </Typography>
 
                 <Box>
-                  <Button variant="contained" className="mr-2 bg-[#e74c3c]">
+                  <Button variant="contained" className="mr-2 bg-[#e74c3c] rounded-lg">
                     Reset
                   </Button>
-                  <Button variant="contained" className="bg-[#2ecc71]">
+                  <Button variant="contained" className="bg-[#2ecc71] rounded-lg">
                     Save
                   </Button>
                 </Box>
               </Box>
             </CardContent>
           </Card>
-          <Card className="p-2 rounded-xl">
-            <CardContent className="grid gap-y-3">
-              <Box className="flex justify-between mb-2">
-                <Box>
-                  <Typography variant="h6" className="font-bold">
+          <Card className="rounded-xl my-auto">
+            <CardContent className="grid gap-y-3 ">
+              <Box className="flex justify-between ">
+                <Box className="grid items-center">
+                  <Typography variant="h6" className="font-bold text-2xl ">
                     Screen 1
                   </Typography>
 
-                  <Box className="flex gap-x-5 mt-5">
-                    <Typography className="caption">IMAX 3D</Typography>
-                    <Typography className="caption">250 seats</Typography>
-                    <Typography className="caption">Premium</Typography>
+                  <Box className="flex gap-x-5 ">
+                    <Typography className="text-xs text-[#666]" >IMAX 3D</Typography>
+                    <Typography className="text-xs text-[#666]" >250 seats</Typography>
+                    <Typography className="text-xs text-[#666]" >Premium</Typography>
                   </Box>
                 </Box>
 
                 {/* FIX: image path should be inside /public */} 
-                <img src="/1.jpg" alt="" className="h-[50px] w-[50px]" />
+               <Box className="bg-gradient-to-r from-[#667eea] to-[#764ba2] h-[60px] w-[60px] rounded-lg grid place-content-center">
+                  <RestartAltIcon />
+               </Box>
               </Box>
 
               <Divider />
 
               {/* DEFAULT SHOW TIMINGS */}
               <Box>
-                <Typography variant="body2">Default Show Timings</Typography>
+                <Typography variant="body2" className='text-sm'>Default Show Timings</Typography>
 
                 <List className="grid grid-cols-3 gap-2">
                   {["11:00 PM", "11:00 PM", "11:00 PM", "11:00 PM"].map(
                     (time, index) => (
                       <ListItem key={index} className="p-0">
-                        <Chip label={time} onDelete={() => {}} />
+                        <Chip label={time} onDelete={() => {}} 
+                        className='bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white'
+                         sx={{
+                            "& .MuiChip-deleteIcon": {
+                              color: "#B3B3B3",
+                            },
+                            "& .MuiChip-deleteIcon:hover": {
+                              color: "darkred",
+                            }
+                          }}
+                        />
                       </ListItem>
                     )
                   )}
                 </List>
+                <Box className="flex gap-5">
+                  <TextField type="time" size="small" className="grow"/>
+                  <Button variant="contained" className="bg-[#667eea] rounded-lg">
+                    + Add Time
+                  </Button>
+              </Box>
               </Box>
 
               {/* ADD TIME SLOT */}
-              <Box className="flex gap-5">
-                <TextField type="time" size="small" className="grow"/>
-                <Button variant="contained" className="bg-[#667eea]">
-                  + Add Time
-                </Button>
-              </Box>
+       
 
               <Divider />
 
-              <Box className="flex justify-between mt-2">
-                <Typography variant="caption">
+              <Box className="flex justify-between items-center mt-2">
+                <Typography variant="caption" className='first-letter:text-[#667eea] first-letter:text-md text-sm'>
                   4 time slots configured
                 </Typography>
 
                 <Box>
-                  <Button variant="contained" className="mr-2 bg-[#e74c3c]">
+                  <Button variant="contained" className="mr-2 bg-[#e74c3c] rounded-lg">
                     Reset
                   </Button>
-                  <Button variant="contained" className="bg-[#2ecc71]">
+                  <Button variant="contained" className="bg-[#2ecc71] rounded-lg">
                     Save
                   </Button>
                 </Box>
               </Box>
             </CardContent>
           </Card>
-          <Card className="p-2 rounded-xl">
-            <CardContent className="grid gap-y-3">
-              <Box className="flex justify-between mb-2">
-                <Box>
-                  <Typography variant="h6" className="font-bold">
+          <Card className="rounded-xl my-auto">
+            <CardContent className="grid gap-y-3 ">
+              <Box className="flex justify-between ">
+                <Box className="grid items-center">
+                  <Typography variant="h6" className="font-bold text-2xl ">
                     Screen 1
                   </Typography>
 
-                  <Box className="flex gap-x-5 mt-5">
-                    <Typography className="caption">IMAX 3D</Typography>
-                    <Typography className="caption">250 seats</Typography>
-                    <Typography className="caption">Premium</Typography>
+                  <Box className="flex gap-x-5 ">
+                    <Typography className="text-xs text-[#666]" >IMAX 3D</Typography>
+                    <Typography className="text-xs text-[#666]" >250 seats</Typography>
+                    <Typography className="text-xs text-[#666]" >Premium</Typography>
                   </Box>
                 </Box>
 
                 {/* FIX: image path should be inside /public */} 
-                <img src="/1.jpg" alt="" className="h-[50px] w-[50px]" />
+               <Box className="bg-gradient-to-r from-[#667eea] to-[#764ba2] h-[60px] w-[60px] rounded-lg grid place-content-center">
+                  <RestartAltIcon />
+               </Box>
               </Box>
 
               <Divider />
 
               {/* DEFAULT SHOW TIMINGS */}
               <Box>
-                <Typography variant="body2">Default Show Timings</Typography>
+                <Typography variant="body2" className='text-sm'>Default Show Timings</Typography>
 
                 <List className="grid grid-cols-3 gap-2">
                   {["11:00 PM", "11:00 PM", "11:00 PM", "11:00 PM"].map(
                     (time, index) => (
                       <ListItem key={index} className="p-0">
-                        <Chip label={time} onDelete={() => {}} />
+                        <Chip label={time} onDelete={() => {}} 
+                        className='bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white'
+                         sx={{
+                            "& .MuiChip-deleteIcon": {
+                              color: "#B3B3B3",
+                            },
+                            "& .MuiChip-deleteIcon:hover": {
+                              color: "darkred",
+                            }
+                          }}
+                        />
                       </ListItem>
                     )
                   )}
                 </List>
+                <Box className="flex gap-5">
+                  <TextField type="time" size="small" className="grow"/>
+                  <Button variant="contained" className="bg-[#667eea] rounded-lg">
+                    + Add Time
+                  </Button>
+              </Box>
               </Box>
 
               {/* ADD TIME SLOT */}
-              <Box className="flex gap-5">
-                <TextField type="time" size="small" className="grow"/>
-                <Button variant="contained" className="bg-[#667eea]">
-                  + Add Time
-                </Button>
-              </Box>
+       
 
               <Divider />
 
-              <Box className="flex justify-between mt-2">
-                <Typography variant="caption">
+              <Box className="flex justify-between items-center mt-2">
+                <Typography variant="caption" className='first-letter:text-[#667eea] first-letter:text-md text-sm'>
                   4 time slots configured
                 </Typography>
 
                 <Box>
-                  <Button variant="contained" className="mr-2 bg-[#e74c3c]">
+                  <Button variant="contained" className="mr-2 bg-[#e74c3c] rounded-lg">
                     Reset
                   </Button>
-                  <Button variant="contained" className="bg-[#2ecc71]">
-                    Save
-                  </Button>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-          <Card className="p-2 rounded-xl">
-            <CardContent className="grid gap-y-3">
-              <Box className="flex justify-between mb-2">
-                <Box>
-                  <Typography variant="h6" className="font-bold">
-                    Screen 1
-                  </Typography>
-
-                  <Box className="flex gap-x-5 mt-5">
-                    <Typography className="caption">IMAX 3D</Typography>
-                    <Typography className="caption">250 seats</Typography>
-                    <Typography className="caption">Premium</Typography>
-                  </Box>
-                </Box>
-
-                {/* FIX: image path should be inside /public */} 
-                <img src="/1.jpg" alt="" className="h-[50px] w-[50px]" />
-              </Box>
-
-              <Divider />
-
-              {/* DEFAULT SHOW TIMINGS */}
-              <Box>
-                <Typography variant="body2">Default Show Timings</Typography>
-
-                <List className="grid grid-cols-3 gap-2">
-                  {["11:00 PM", "11:00 PM", "11:00 PM", "11:00 PM"].map(
-                    (time, index) => (
-                      <ListItem key={index} className="p-0">
-                        <Chip label={time} onDelete={() => {}} />
-                      </ListItem>
-                    )
-                  )}
-                </List>
-              </Box>
-
-              {/* ADD TIME SLOT */}
-              <Box className="flex gap-5">
-                <TextField type="time" size="small" className="grow"/>
-                <Button variant="contained" className="bg-[#667eea]">
-                  + Add Time
-                </Button>
-              </Box>
-
-              <Divider />
-
-              <Box className="flex justify-between mt-2">
-                <Typography variant="caption">
-                  4 time slots configured
-                </Typography>
-
-                <Box>
-                  <Button variant="contained" className="mr-2 bg-[#e74c3c]">
-                    Reset
-                  </Button>
-                  <Button variant="contained" className="bg-[#2ecc71]">
+                  <Button variant="contained" className="bg-[#2ecc71] rounded-lg">
                     Save
                   </Button>
                 </Box>
@@ -348,21 +329,21 @@ const ScreenTimings = () => {
 
         {/* TIMING TEMPLATES */}
         <Paper className="p-5 rounded-xl">
-          <Typography variant="subtitle1" className="font-bold mb-2">
+          <Typography variant="subtitle1" className="font-bold mb-2 text-lg">
             Timing Templates (Quick Apply)
           </Typography>
 
           <Box className="grid grid-cols-3 gap-5">
             <Card className="border border-[#e0e0e0] hover:border-[#667eea] rounded-xl">
-              <CardContent>
-                <Typography className="font-medium" variant="subtitle1">
+              <CardContent className=''>
+                <Typography className="font-semibold text-md" variant="subtitle1">
                   4 Shows Pattern (Standard)
                 </Typography>
 
-                <List className="grid grid-cols-4 gap-2 mt-2">
+                <List className="grid grid-cols-3 gap-2 mt-2">
                   {["11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM"].map(
                     (time, index) => (
-                      <ListItem key={index} className="p-0">
+                      <ListItem key={index} className="p-0 text-xs text-[#f0f0f0]">
                         <Chip label={time} />
                       </ListItem>
                     )
@@ -372,7 +353,7 @@ const ScreenTimings = () => {
                 <CardActions>
                   <Button
                     variant="contained"
-                    className="mx-auto bg-[#667eea]"
+                    className=" bg-[#667eea] grow text-xs font-semibold capitalize"
                   >
                     Apply to Selected Screen
                   </Button>
@@ -380,15 +361,15 @@ const ScreenTimings = () => {
               </CardContent>
             </Card>
              <Card className="border border-[#e0e0e0] hover:border-[#667eea] rounded-xl">
-              <CardContent>
-                <Typography className="font-medium" variant="subtitle1">
+              <CardContent className=''>
+                <Typography className="font-semibold text-md" variant="subtitle1">
                   4 Shows Pattern (Standard)
                 </Typography>
 
-                <List className="grid grid-cols-4 gap-2 mt-2">
+                <List className="grid grid-cols-3 gap-2 mt-2">
                   {["11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM"].map(
                     (time, index) => (
-                      <ListItem key={index} className="p-0">
+                      <ListItem key={index} className="p-0 text-xs text-[#f0f0f0]">
                         <Chip label={time} />
                       </ListItem>
                     )
@@ -398,7 +379,7 @@ const ScreenTimings = () => {
                 <CardActions>
                   <Button
                     variant="contained"
-                    className="mx-auto bg-[#667eea]"
+                    className=" bg-[#667eea] grow text-xs font-semibold capitalize "
                   >
                     Apply to Selected Screen
                   </Button>
@@ -406,15 +387,15 @@ const ScreenTimings = () => {
               </CardContent>
             </Card>
              <Card className="border border-[#e0e0e0] hover:border-[#667eea] rounded-xl">
-              <CardContent>
-                <Typography className="font-medium" variant="subtitle1">
+              <CardContent className=''>
+                <Typography className="font-semibold text-md" variant="subtitle1">
                   4 Shows Pattern (Standard)
                 </Typography>
 
-                <List className="grid grid-cols-4 gap-2 mt-2">
+                <List className="grid grid-cols-3 gap-2 mt-2">
                   {["11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM"].map(
                     (time, index) => (
-                      <ListItem key={index} className="p-0">
+                      <ListItem key={index} className="p-0 text-xs text-[#f0f0f0]">
                         <Chip label={time} />
                       </ListItem>
                     )
@@ -424,7 +405,7 @@ const ScreenTimings = () => {
                 <CardActions>
                   <Button
                     variant="contained"
-                    className="mx-auto bg-[#667eea]"
+                    className=" bg-[#667eea] grow text-xs font-semibold capitalize"
                   >
                     Apply to Selected Screen
                   </Button>
